@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CalculateTemperatureProfilesJob < ApplicationJob
   def perform(timestamp)
     TemperatureProfileService.create_or_update_temperature_profiles(timestamp)

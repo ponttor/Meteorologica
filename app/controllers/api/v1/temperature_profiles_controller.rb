@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::TemperatureProfilesController < ApplicationController
   def index
     search_query = TemperatureProfile.ransack(params[:q])

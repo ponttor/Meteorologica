@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::MeasurementsController < ApplicationController
   def create
     measurement_attributes = MeasurementService.get_measurement_attributes(measurements_params)

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Temperature < ApplicationRecord
   validates :value, numericality: true, presence: true
 

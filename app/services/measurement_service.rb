@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MeasurementService
   class << self
     def get_measurement_attributes(measurement_params)
@@ -10,7 +12,7 @@ class MeasurementService
       measurement_params.flat_map do |param|
         matched_measurement = imported_measurements.results.find { |m| m.last == param[:date] }
         next [] unless matched_measurement
-  
+
         param[:measurements].map do |temp_value|
           { measurement_id: matched_measurement.first, value: temp_value }
         end
