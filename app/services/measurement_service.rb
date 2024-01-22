@@ -3,9 +3,7 @@
 class MeasurementService
   class << self
     def get_measurement_attributes(measurement_params)
-      existing_timestamps = Measurement.pluck(:date)
-      measurement_params.reject { |param| existing_timestamps.include?(param[:date]) }
-                        .map { |param| { date: param[:date] } }
+      measurement_params.map { |param| { date: param[:date] } }
     end
 
     def get_temperature_attributes(measurement_params, imported_measurements)
