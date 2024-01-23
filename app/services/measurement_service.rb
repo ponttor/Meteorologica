@@ -16,5 +16,14 @@ class MeasurementService
         end
       end.compact
     end
+
+    def import_measurements(measurement_attributes, measurements_params)
+      ActiveRecord::Base.transaction do
+        imported_measurements = Measurement.import(measurement_attributes, returning: [:id, :date])      
+        temperature_attributes = MeasurementService.get_temperature_attributes(measurements_params, imported_measurements)
+  
+        Temperature.import(temperature_attributes)
+      end
+    end
   end
 end

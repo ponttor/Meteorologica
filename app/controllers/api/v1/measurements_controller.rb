@@ -6,17 +6,11 @@ class Api::V1::MeasurementsController < ApplicationController
     return if measurement_attributes.empty?
 
     begin
-      ActiveRecord::Base.transaction do
-        imported_measurements = Measurement.import(measurement_attributes, returning: [:id, :date])      
-        temperature_attributes = MeasurementService.get_temperature_attributes(measurements_params, imported_measurements)
-
-        Temperature.import(temperature_attributes)
-      end
-
+      MeasurementService.import_measurements(measurement_attributes, measurements_params)
       CalculateTemperatureProfilesJob.perform_later(measurement_attributes.pluck(:date))
 
       measurement_dates = measurement_attributes.map { |attr| attr[:date] }
-      measurements = Measurement.by_date(measurement_dates)
+      measurements = Measurement.by_date(measurement_dates.uniq)
 
       render json: measurements, each_serializer: Api::V1::Measurements::Serializer
 
