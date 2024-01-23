@@ -10,7 +10,7 @@ class Api::V1::MeasurementsController < ApplicationController
       CalculateTemperatureProfilesJob.perform_later(measurement_attributes.pluck(:date))
 
       measurement_dates = measurement_attributes.map { |attr| attr[:date] }
-      measurements = Measurement.by_date(measurement_dates.uniq)
+      measurements = Measurement.by_date(measurement_dates)
 
       render json: measurements, each_serializer: Api::V1::Measurements::Serializer
 
